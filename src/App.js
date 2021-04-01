@@ -1,29 +1,30 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	HashRouter,
+} from 'react-router-dom';
 
 function App() {
 	return (
-		<Router className='App'>
+		<HashRouter basename='/' className='App'>
 			<Switch>
-				<Route
-					path='/:name/:number?'
-					render={(props) => <Main {...props} />}
-				></Route>
+				<Route exact path='/:name?/:number?' component={Main}></Route>
 			</Switch>
-		</Router>
+		</HashRouter>
 	);
 }
 
-const Main = () => {
-	let { name, number } = useParams();
-
+const Main = (props) => {
+	// console.log(props.match);
 	return (
 		<div>
-			<div className='name'> {name}</div>
+			<div className='name'> {props.match.params.name}</div>
 			<div className='number_container'>
-				{number.split('').map((e) => {
+				{props.match.params.number.split('').map((e) => {
 					return <BoxNumber num={e}></BoxNumber>;
 				})}
 			</div>
